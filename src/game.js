@@ -1,61 +1,7 @@
-class Vect {
-    constructor(x = 0, y = 0) {
-        this.x = x;
-        this.y = y;
-    }
+import Ball from './ball';
+import Player from './player';
 
-    get len() {
-        return Math.sqrt(this.x * this.x + this.y * this.y);
-    }
-
-    set len(value) {
-        const f = value / this.len;
-        this.x *= f;
-        this.y *= f;
-    }
-}
-
-class Rect {
-    constructor(x = 0, y = 0) {
-        this.position = new Vect(0, 0);
-        this.size = new Vect(x, y);
-    }
-    get left() {
-        return this.position.x - this.size.x / 2;
-    }
-    get right() {
-        return this.position.x + this.size.x / 2;
-    }
-    get top() {
-        return this.position.y - this.size.y / 2;
-    }
-    get bottom() {
-        return this.position.y + this.size.y / 2;
-    }
-}
-
-class Ball extends Rect {
-    constructor() {
-        super(10, 10);
-        this.velocity = new Vect;
-    }
-}
-
-class Player extends Rect {
-    constructor() {
-        super(20, 100);
-        this.velocity = new Vect;
-        this.score = 0;
-
-        this._lastPosition = new Vect;
-    }
-    update(dt) {
-        this.velocity.y = (this.position.y - this._lastPosition.y) / dt;
-        this._lastPosition.y = this.position.y;
-    }
-}
-
-class Pong {
+class Game {
     constructor(canvas) {
         this._canvas = canvas;
         this._context = canvas.getContext('2d');
@@ -201,14 +147,4 @@ class Pong {
     }
 }
 
-const canvas = document.querySelector('#pong');
-const pong = new Pong(canvas);
-
-canvas.addEventListener('click', () => pong.play());
-
-canvas.addEventListener('mousemove', event => {
-    const scale = event.offsetY / event.target.getBoundingClientRect().height;
-    pong.players[0].position.y = canvas.height * scale;
-});
-
-pong.start();
+export default Game;
